@@ -32,4 +32,4 @@ A live demo of the game is not available currently, but you can clone this repos
 
 - **LIBGDX:** Java game development framework used for graphics, input, and other game-related functionalities.
 - **Java:** Programming language used for game development.
-- **IDE:** Any Java-supported IDE like IntelliJ IDEA, Eclipse, or VSCode.
+- **IDE:** Android Studio
