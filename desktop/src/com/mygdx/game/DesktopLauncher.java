@@ -2,7 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.config.GameConfig;
+
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -10,6 +11,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("My2048Game");
-		new Lwjgl3Application(new MyGdxGame(), config);
+		config.setWindowedMode((int) GameConfig.WIDTH, (int) GameConfig.HEIGHT);
+		new Lwjgl3Application(new My2048Game(), config);
 	}
 }
