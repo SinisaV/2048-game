@@ -4,21 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.My2048Game;
 import com.mygdx.game.assets.AssetDescriptors;
-import com.mygdx.game.assets.RegionNames;
 import com.mygdx.game.config.GameConfig;
 
 public class MenuScreen extends ScreenAdapter {
@@ -56,7 +54,7 @@ public class MenuScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(0f, 0f, 0f, 0f);
+        ScreenUtils.clear(240 / 255f, 240 / 255f, 240 / 255f, 1);
 
         stage.act(delta);
         stage.draw();
@@ -76,8 +74,8 @@ public class MenuScreen extends ScreenAdapter {
         Table table = new Table();
         table.defaults().pad(20);
 
-        TextureRegion backgroundRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
-        table.setBackground(new TextureRegionDrawable(backgroundRegion));
+        Label titleLabel = new Label("2048 GAME", skin);
+        table.add(titleLabel).top().colspan(3).padTop(100).row();
 
         TextButton playButton = new TextButton("Play", skin);
         playButton.addListener(new ClickListener() {
@@ -106,16 +104,13 @@ public class MenuScreen extends ScreenAdapter {
         Table buttonTable = new Table();
         buttonTable.defaults().padLeft(30).padRight(30);
 
-        TextureRegion menuBackgroundRegion = gameplayAtlas.findRegion(RegionNames.BACKGROUND);
-        buttonTable.setBackground(new TextureRegionDrawable(menuBackgroundRegion));
-
         buttonTable.add(playButton).padBottom(15).expandX().fill().row();
         buttonTable.add(leaderboardButton).padBottom(15).fillX().row();
         buttonTable.add(quitButton).fillX();
 
         buttonTable.center();
 
-        table.add(buttonTable);
+        table.add(buttonTable).expand().fill();
         table.center();
         table.setFillParent(true);
         table.pack();

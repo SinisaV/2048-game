@@ -4,45 +4,45 @@ size: 1024, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-backpack
+background
   rotate: false
-  xy: 2, 54
-  size: 80, 80
-  orig: 80, 80
+  xy: 2, 234
+  size: 800, 450
+  orig: 800, 450
   offset: 0, 0
   index: -1
-dumbbell
+block16
+  rotate: false
+  xy: 116, 118
+  size: 112, 114
+  orig: 112, 114
+  offset: 0, 0
+  index: -1
+block2
+  rotate: false
+  xy: 2, 118
+  size: 112, 114
+  orig: 112, 114
+  offset: 0, 0
+  index: -1
+block2048
+  rotate: false
+  xy: 804, 454
+  size: 112, 114
+  orig: 112, 114
+  offset: 0, 0
+  index: -1
+block4
+  rotate: false
+  xy: 804, 570
+  size: 112, 114
+  orig: 112, 114
+  offset: 0, 0
+  index: -1
+block8
   rotate: false
   xy: 2, 2
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-fitness_background
-  rotate: false
-  xy: 2, 136
-  size: 799, 533
-  orig: 799, 533
-  offset: 0, 0
-  index: -1
-pizza
-  rotate: false
-  xy: 803, 611
-  size: 60, 58
-  orig: 60, 58
-  offset: 0, 0
-  index: -1
-power
-  rotate: false
-  xy: 84, 84
-  size: 50, 50
-  orig: 50, 50
-  offset: 0, 0
-  index: -1
-protein
-  rotate: false
-  xy: 803, 589
-  size: 20, 20
-  orig: 20, 20
+  size: 112, 114
+  orig: 112, 114
   offset: 0, 0
   index: -1

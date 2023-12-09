@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.My2048Game;
@@ -17,7 +18,8 @@ import com.mygdx.game.assets.RegionNames;
 import com.mygdx.game.config.GameConfig;
 
 public class IntroScreen extends ScreenAdapter {
-    public static final float INTRO_DURATION_IN_SEC = 3f;
+    public static final float INTRO_DURATION_IN_SEC = 5f;
+    public static final float INTRO_DURATION_IN_SEC3 = 3f;
 
     private final My2048Game game;
     private final AssetManager assetManager;
@@ -47,7 +49,6 @@ public class IntroScreen extends ScreenAdapter {
 
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
-        stage.addActor(createKeyhole());
         stage.addActor(createAnimation());
     }
 
@@ -58,7 +59,7 @@ public class IntroScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(65 / 255f, 159 / 255f, 221 / 255f, 0f);
+        ScreenUtils.clear(240 / 255f, 240 / 255f, 240 / 255f, 1);
 
         duration += delta;
 
@@ -80,36 +81,82 @@ public class IntroScreen extends ScreenAdapter {
         stage.dispose();
     }
 
-    private Actor createKeyhole() {
-        Image keyhole = new Image(gameplayAtlas.findRegion(RegionNames.BACKGROUND));
-        // position the image to the center of the window
-        keyhole.setPosition(viewport.getWorldWidth() / 2f - keyhole.getWidth() / 2f,
-                viewport.getWorldHeight() / 2f - keyhole.getHeight() / 2f);
-        return keyhole;
-    }
-
     private Actor createAnimation() {
-        Image key = new Image(gameplayAtlas.findRegion(RegionNames.BACKGROUND));
+        final Image image1 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK2));
+        final Image image2 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK4));
+        final Image image3 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK8));
+        final Image image4 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK16));
 
-        // set positions x, y to center the image to the center of the window
-        float posX = (viewport.getWorldWidth() / 2f) - key.getWidth() / 2f;
-        float posY = (viewport.getWorldHeight() / 2f) - key.getHeight() / 2f;
+        image1.setPosition(0, GameConfig.HUD_HEIGHT / 2 - image1.getHeight() / 2, Align.bottomLeft);
+        image2.setPosition(GameConfig.HUD_WIDTH - image2.getWidth(), GameConfig.HUD_HEIGHT / 2 - image2.getHeight() / 2, Align.bottomRight);
+        image3.setPosition(GameConfig.HUD_WIDTH / 2 - image3.getWidth() / 2, 0, Align.bottomLeft);
+        image4.setPosition(GameConfig.HUD_WIDTH / 2 - image4.getWidth() / 2, GameConfig.HUD_HEIGHT - image4.getHeight(), Align.topLeft);
 
-        key.setOrigin(Align.center);
-        key.addAction(
-                /* animationDuration = Actions.sequence + Actions.rotateBy + Actions.scaleTo
-                                      = 1.5 + 1 + 0.5 = 3 sec */
-                Actions.sequence(
-                        Actions.parallel(
-                                Actions.rotateBy(1080, 1.5f),   // rotate the image three times
-                                Actions.moveTo(posX, posY, 1.5f)   // // move image to the center of the window
-                        ),
-                        Actions.rotateBy(-360, 1),  // rotate the image for 360 degrees to the left side
-                        Actions.scaleTo(0, 0, 0.5f),    // "minimize"/"hide" image
-                        Actions.removeActor()   // // remove image
-                )
-        );
+        float duration = INTRO_DURATION_IN_SEC3;
 
-        return key;
+        image1.addAction(Actions.sequence(
+                Actions.moveTo(GameConfig.HUD_WIDTH / 2 - image1.getWidth() / 2, GameConfig.HUD_HEIGHT / 2 - image1.getHeight() / 2, duration)
+        ));
+
+        image2.addAction(Actions.sequence(
+                Actions.moveTo(GameConfig.HUD_WIDTH / 2 - image2.getWidth() / 2, GameConfig.HUD_HEIGHT / 2 - image2.getHeight() / 2, duration)
+        ));
+
+        image3.addAction(Actions.sequence(
+                Actions.moveTo(GameConfig.HUD_WIDTH / 2 - image3.getWidth() / 2, GameConfig.HUD_HEIGHT / 2 - image3.getHeight() / 2, duration)
+        ));
+
+        image4.addAction(Actions.sequence(
+                Actions.moveTo(GameConfig.HUD_WIDTH / 2 - image4.getWidth() / 2, GameConfig.HUD_HEIGHT / 2 - image4.getHeight() / 2, duration),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        checkCollisionAndDisplayFinalImage(image1, image2);
+                    }
+                })
+        ));
+
+        stage.addActor(image1);
+        stage.addActor(image2);
+        stage.addActor(image3);
+        stage.addActor(image4);
+
+        return image1;
     }
+
+
+    private void checkCollisionAndDisplayFinalImage(Image image1, Image image2) {
+        float image1X = image1.getX();
+        float image1Y = image1.getY();
+        float image1Width = image1.getWidth();
+        float image1Height = image1.getHeight();
+
+        float image2X = image2.getX();
+        float image2Y = image2.getY();
+        float image2Width = image2.getWidth();
+        float image2Height = image2.getHeight();
+
+        if (image1X < image2X + image2Width &&
+                image1X + image1Width > image2X &&
+                image1Y < image2Y + image2Height &&
+                image1Y + image1Height > image2Y) {
+            // Collision occurred
+            final Image thirdImage = createNewImageAtCenter();
+            stage.addActor(thirdImage);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    thirdImage.remove();
+                }
+            }, 2f);
+        }
+    }
+
+    private Image createNewImageAtCenter() {
+        Image newImage = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK2048));
+        newImage.setPosition(GameConfig.HUD_WIDTH / 2 - newImage.getWidth() / 2, GameConfig.HUD_HEIGHT / 2 - newImage.getHeight() / 2);
+        return newImage;
+    }
+
 }
