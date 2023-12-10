@@ -3,7 +3,10 @@ package com.mygdx.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,9 +33,12 @@ public class MenuScreen extends ScreenAdapter {
     private Skin skin;
     private TextureAtlas gameplayAtlas;
 
+    private BitmapFont customFont;
+
     public MenuScreen(My2048Game game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        customFont = game.getCustomFont();
     }
 
     @Override
@@ -74,9 +80,13 @@ public class MenuScreen extends ScreenAdapter {
         Table table = new Table();
         table.defaults().pad(20);
 
-        Label titleLabel = new Label("2048 GAME", skin);
+        Label.LabelStyle titleLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));
+        Label titleLabel = new Label("2048 GAME", titleLabelStyle);
+
         table.add(titleLabel).top().colspan(3).padTop(100).row();
 
+
+        TextButton.TextButtonStyle defaultTextButtonStyle = new TextButton.TextButtonStyle();
         TextButton playButton = new TextButton("Play", skin);
         playButton.addListener(new ClickListener() {
             @Override

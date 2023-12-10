@@ -3,6 +3,8 @@ package com.mygdx.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -31,9 +33,12 @@ public class LeaderboardScreen extends ScreenAdapter {
     private Skin skin;
     private TextureAtlas gameplayAtlas;
 
+    private BitmapFont customFont;
+
     public LeaderboardScreen(My2048Game game) {
         this.game = game;
         assetManager = game.getAssetManager();
+        customFont = game.getCustomFont();
     }
 
     @Override
@@ -109,7 +114,10 @@ public class LeaderboardScreen extends ScreenAdapter {
         Table mainTable = new Table();
         mainTable.center().top().padTop(100);
 
-        Label titleLabel = new Label("Leaderboard", skin);
+        Label.LabelStyle titleLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));
+        customFont.getData().setScale(0.5f);
+
+        Label titleLabel = new Label("Leaderboard", titleLabelStyle);
         mainTable.add(titleLabel).colspan(2).padBottom(30);
         mainTable.row();
 
