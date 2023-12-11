@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.My2048Game;
 import com.mygdx.game.assets.AssetDescriptors;
+import com.mygdx.game.common.GameManager;
+import com.mygdx.game.common.Score;
 import com.mygdx.game.config.GameConfig;
 
 public class LeaderboardScreen extends ScreenAdapter {
@@ -33,7 +35,7 @@ public class LeaderboardScreen extends ScreenAdapter {
     private Skin skin;
     private TextureAtlas gameplayAtlas;
 
-    private BitmapFont customFont;
+    private final BitmapFont customFont;
 
     public LeaderboardScreen(My2048Game game) {
         this.game = game;
@@ -122,7 +124,14 @@ public class LeaderboardScreen extends ScreenAdapter {
         mainTable.row();
 
         Table leaderboardTable = new Table();
-        leaderboardTable.defaults();
+        leaderboardTable.defaults().height(30);
+
+        Label playerLabel = new Label("Player", skin);
+        leaderboardTable.add(playerLabel).padRight(50);
+
+        Label myScoreLabel = new Label("Score", skin);
+        leaderboardTable.add(myScoreLabel);
+        leaderboardTable.row().padBottom(20);
 
         String[] playerNames = {"Player1", "Player2", "Player3", "Player4", "Player5",
                 "Player6", "Player7", "Player8", "Player9", "Player10",
@@ -134,11 +143,11 @@ public class LeaderboardScreen extends ScreenAdapter {
 
         leaderboardTable.row().padBottom(20);
 
-        for (int i = 0; i < playerNames.length; i++) {
-            Label nameLabel = new Label(playerNames[i], skin);
+        for (Score score : GameManager.INSTANCE.loadScores()) {
+            Label nameLabel = new Label(score.getPlayerName(), skin);
             leaderboardTable.add(nameLabel).padRight(50);
 
-            Label scoreLabel = new Label(String.valueOf(scores[i]), skin);
+            Label scoreLabel = new Label(String.valueOf(score.getScore()), skin);
             leaderboardTable.add(scoreLabel);
             leaderboardTable.row().padBottom(20);
         }

@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Logger;
 
+import com.mygdx.game.common.GameManager;
+import com.mygdx.game.common.Score;
 import com.mygdx.game.screen.IntroScreen;
 
 public class My2048Game extends Game {
@@ -31,6 +33,17 @@ public class My2048Game extends Game {
 		customFont = generator.generateFont(parameter);
 		generator.dispose(); // Dispose the generator after generating the font
 
+		/*GameManager gameManager = GameManager.INSTANCE;
+
+		for (int i = 1; i <= 10; i++) {
+			String playerName = "Player" + i;
+			int score = i * 100; // Assigning scores (e.g., Player1: 100, Player2: 200, etc.)
+			Score newScore = new Score(playerName, score);
+			gameManager.saveScore(newScore);
+		}*/
+
+		String path = Gdx.files.local("scores.json").file().getAbsolutePath();
+		Gdx.app.log("FilePath", "Scores JSON file path: " + path);
 
 		batch = new SpriteBatch();
 
