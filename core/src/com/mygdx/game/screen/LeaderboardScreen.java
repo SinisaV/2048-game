@@ -126,10 +126,14 @@ public class LeaderboardScreen extends ScreenAdapter {
         Table leaderboardTable = new Table();
         leaderboardTable.defaults().height(30);
 
-        Label playerLabel = new Label("Player", skin);
-        leaderboardTable.add(playerLabel).padRight(50);
+        Label playerNameLabel = new Label("Name", skin);
+        playerNameLabel.setFontScale(1.5f);
+        playerNameLabel.setColor(Color.BLACK);
+        leaderboardTable.add(playerNameLabel).padRight(50);
 
         Label myScoreLabel = new Label("Score", skin);
+        myScoreLabel.setFontScale(1.5f);
+        myScoreLabel.setColor(Color.BLACK);
         leaderboardTable.add(myScoreLabel);
         leaderboardTable.row().padBottom(20);
 
@@ -141,13 +145,15 @@ public class LeaderboardScreen extends ScreenAdapter {
         int[] scores = {100, 80, 120, 70, 80, 90, 100, 110, 120, 130,
                 85, 75, 95, 105, 115, 88, 92, 100, 120, 130};
 
-        leaderboardTable.row().padBottom(20);
+        leaderboardTable.row().padTop(20);
 
         for (Score score : GameManager.INSTANCE.loadScores()) {
             Label nameLabel = new Label(score.getPlayerName(), skin);
+            nameLabel.setColor(Color.BLACK);
             leaderboardTable.add(nameLabel).padRight(50);
 
             Label scoreLabel = new Label(String.valueOf(score.getScore()), skin);
+            scoreLabel.setColor(Color.BLACK);
             leaderboardTable.add(scoreLabel);
             leaderboardTable.row().padBottom(20);
         }

@@ -6,6 +6,8 @@ public class AssetPaths {
     public static final String UI_SKIN = "ui/flat-earth-ui.json";
     public static final String GAMEPLAY = "gameplay/gameplay.atlas";
 
+    public static final String MENU_MUSIC = "music/menu.mp3";
+
     private AssetPaths() {
     }
 }

@@ -52,6 +52,7 @@ public class SettingsScreen extends ScreenAdapter {
 
         stage.addActor(createButtonUI());
         stage.addActor(createUI());
+        stage.addActor(createCheckBoxUI());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -135,8 +136,22 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
 
+
+        table.add(checkBoxMenuMusic).padBottom(20).row();
+        table.add(checkBoxGameMusic).padBottom(20).row();
+
+        table.setFillParent(true);
+        table.pack();
+
+        return table;
+    }
+
+    private Actor createCheckBoxUI() {
+        Table table = new Table();
+        table.bottom().pad(160);
+
         Label gridSizeLabel = new Label("Grid Size", skin);
-        gridSizeLabel.setFontScale(1.5f);
+        gridSizeLabel.setFontScale(1.3f);
         // Create a list of grid sizes
         String[] gridSizeNames = new String[GridSize.values().length];
         for (int i = 0; i < GridSize.values().length; i++) {
@@ -171,11 +186,9 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
 
-        table.add(checkBoxMenuMusic).padBottom(20).row();
-        table.add(checkBoxGameMusic).padBottom(20).row();
-        table.add(gridSizeLabel).padBottom(20).row();
+        table.add(gridSizeLabel).padRight(20);
         table.add(gridSizeSelectBox).width(200)
-                .height(30).padBottom(20).row();
+                .height(30);
 
         table.setFillParent(true);
         table.pack();
