@@ -9,8 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Logger;
 
-import com.mygdx.game.common.GameManager;
-import com.mygdx.game.common.Score;
 import com.mygdx.game.screen.IntroScreen;
 
 public class My2048Game extends Game {

@@ -49,7 +49,7 @@ public class IntroScreen extends ScreenAdapter {
 
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
-        stage.addActor(createAnimation());
+        //stage.addActor(createAnimation());
     }
 
     @Override

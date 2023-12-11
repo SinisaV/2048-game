@@ -104,7 +104,7 @@ public class MenuScreen extends ScreenAdapter {
         });
 
         TextButton settingsButton = new TextButton("Settings", skin);
-        leaderboardButton.addListener(new ClickListener() {
+        settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(new SettingsScreen(game));
