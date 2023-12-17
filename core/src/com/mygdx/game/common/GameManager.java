@@ -15,6 +15,7 @@ public class GameManager {
     private static final String MUSIC_ENABLED_KEY = "menu_music_enabled";
     private static final String SOUND_ENABLED_KEY = "sounds_enabled";
     private static final String SELECTED_GRID_SIZE_KEY = "selected_grid_size";
+    private static final String HIGH_SCORE_KEY = "high_score";
 
     private List<Score> scores;
 
@@ -44,6 +45,22 @@ public class GameManager {
         Gdx.files.local("scores.json").writeString(scoresJson, false);
     }
 
+    public int getHighScore() {
+        int maxScore = 0;
+
+        if (scores.isEmpty()) {
+            loadScores(); // Make sure scores are loaded
+        }
+
+        for (Score score : scores) {
+            if (score.getScore() > maxScore) {
+                maxScore = score.getScore();
+            }
+        }
+
+        return maxScore;
+    }
+
     public boolean isMusicEnabled() {
         return PREFS.getBoolean(MUSIC_ENABLED_KEY, true);
     }
@@ -69,5 +86,14 @@ public class GameManager {
 
     public int getGridSize() {
         return PREFS.getInteger(SELECTED_GRID_SIZE_KEY, 4);
+    }
+
+    public void setHighScoreEnabled(boolean enabled) {
+        PREFS.putBoolean(HIGH_SCORE_KEY, enabled);
+        PREFS.flush();
+    }
+
+    public boolean isHighScoreEnabled() {
+        return PREFS.getBoolean(HIGH_SCORE_KEY, true);
     }
 }

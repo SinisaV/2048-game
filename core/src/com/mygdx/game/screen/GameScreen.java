@@ -144,6 +144,17 @@ public class GameScreen extends ScreenAdapter {
         table.add(scoreLabel).left();
         table.add(scoreValueLabel).right();
 
+        if (GameManager.INSTANCE.isHighScoreEnabled()) {
+            Label.LabelStyle highScoreLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));
+            customFont.getData().setScale(0.5f);
+
+            Label highScoreLabel = new Label("High Score: ", highScoreLabelStyle);
+            Label highScoreValueLabel = new Label(String.valueOf(GameManager.INSTANCE.getHighScore()), highScoreLabelStyle);
+
+            table.add(highScoreLabel).left().padLeft(100);
+            table.add(highScoreValueLabel).right();
+        }
+
         table.setFillParent(true);
         table.pack();
 

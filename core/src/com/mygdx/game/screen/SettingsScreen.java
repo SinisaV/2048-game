@@ -39,6 +39,8 @@ public class SettingsScreen extends ScreenAdapter {
 
     private CheckBox checkBoxSound;
 
+    private CheckBox checkBoxHighScore;
+
     public SettingsScreen(My2048Game game) {
         this.game = game;
         assetManager = game.getAssetManager();
@@ -138,8 +140,19 @@ public class SettingsScreen extends ScreenAdapter {
             }
         });
 
+        checkBoxHighScore = new CheckBox("Display High Score", skin);
+        checkBoxHighScore.setChecked(GameManager.INSTANCE.isHighScoreEnabled());
+        checkBoxHighScore.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                boolean isChecked = checkBoxHighScore.isChecked();
+                GameManager.INSTANCE.setHighScoreEnabled(isChecked);
+            }
+        });
+
         table.add(checkBoxMusic).padBottom(20).align(Align.left).row();
         table.add(checkBoxSound).padBottom(20).align(Align.left).row();
+        table.add(checkBoxHighScore).padBottom(20).align(Align.left).row();
 
         table.setFillParent(true);
         table.pack();
