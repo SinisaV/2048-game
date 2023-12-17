@@ -45,11 +45,14 @@ public class IntroScreen extends ScreenAdapter {
         assetManager.load(AssetDescriptors.UI_FONT);
         assetManager.load(AssetDescriptors.UI_SKIN);
         assetManager.load(AssetDescriptors.GAMEPLAY);
+        assetManager.load(AssetDescriptors.MENU_MUSIC);
+        assetManager.load(AssetDescriptors.GAME_MUSIC);
+        assetManager.load(AssetDescriptors.CLICK_SOUND);
         assetManager.finishLoading();   // blocks until all assets are loaded
 
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
-        //stage.addActor(createAnimation());
+        stage.addActor(createAnimation());
     }
 
     @Override
@@ -63,9 +66,9 @@ public class IntroScreen extends ScreenAdapter {
 
         duration += delta;
 
-        //if (duration >= INTRO_DURATION_IN_SEC) {
-            game.setScreen(new MenuScreen(game));
-        //}
+        if (duration >= INTRO_DURATION_IN_SEC) {
+        game.setScreen(new MenuScreen(game));
+        }
 
         stage.act(delta);
         stage.draw();
@@ -82,10 +85,15 @@ public class IntroScreen extends ScreenAdapter {
     }
 
     private Actor createAnimation() {
+        final float targetSize = 100f;
         final Image image1 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK2));
+        image1.setSize(targetSize, targetSize);
         final Image image2 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK4));
+        image2.setSize(targetSize, targetSize);
         final Image image3 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK8));
+        image3.setSize(targetSize, targetSize);
         final Image image4 = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK16));
+        image4.setSize(targetSize, targetSize);
 
         image1.setPosition(0, GameConfig.HUD_HEIGHT / 2 - image1.getHeight() / 2, Align.bottomLeft);
         image2.setPosition(GameConfig.HUD_WIDTH - image2.getWidth(), GameConfig.HUD_HEIGHT / 2 - image2.getHeight() / 2, Align.bottomRight);
@@ -154,7 +162,9 @@ public class IntroScreen extends ScreenAdapter {
     }
 
     private Image createNewImageAtCenter() {
+        final float targetSize = 100f;
         Image newImage = new Image(gameplayAtlas.findRegion(RegionNames.BLOCK2048));
+        newImage.setSize(targetSize, targetSize);
         newImage.setPosition(GameConfig.HUD_WIDTH / 2 - newImage.getWidth() / 2, GameConfig.HUD_HEIGHT / 2 - newImage.getHeight() / 2);
         return newImage;
     }
