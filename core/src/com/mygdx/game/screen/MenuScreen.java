@@ -3,10 +3,11 @@ package com.mygdx.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.My2048Game;
 import com.mygdx.game.assets.AssetDescriptors;
+import com.mygdx.game.common.GameManager;
 import com.mygdx.game.config.GameConfig;
 
 public class MenuScreen extends ScreenAdapter {
@@ -33,12 +35,25 @@ public class MenuScreen extends ScreenAdapter {
     private Skin skin;
     private TextureAtlas gameplayAtlas;
 
-    private BitmapFont customFont;
+    private final Music menuMusic;
+
+    private Sound clickSound;
+
+    private final BitmapFont customFont;
 
     public MenuScreen(My2048Game game) {
         this.game = game;
         assetManager = game.getAssetManager();
         customFont = game.getCustomFont();
+
+        menuMusic = assetManager.get(AssetDescriptors.MENU_MUSIC);
+        menuMusic.setLooping(true);
+        menuMusic.setVolume(0.5f);
+        if (GameManager.INSTANCE.isMusicEnabled()) {
+            menuMusic.play();
+        }
+
+        clickSound = assetManager.get(AssetDescriptors.CLICK_SOUND);
     }
 
     @Override
@@ -74,6 +89,15 @@ public class MenuScreen extends ScreenAdapter {
     @Override
     public void dispose() {
         stage.dispose();
+        if (menuMusic != null) {
+            menuMusic.stop();
+            menuMusic.dispose();
+        }
+        if (clickSound != null) {
+            clickSound.stop();
+            clickSound.dispose();
+            clickSound = null;
+        }
     }
 
     private Actor createUI() {

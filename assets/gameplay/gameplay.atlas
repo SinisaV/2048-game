@@ -1,48 +1,97 @@
 
 gameplay.png
-size: 1024, 1024
+size: 1024, 128
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
-background
+block1024
   rotate: false
-  xy: 2, 234
-  size: 800, 450
-  orig: 800, 450
+  xy: 594, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+block128
+  rotate: false
+  xy: 446, 2
+  size: 72, 72
+  orig: 72, 72
   offset: 0, 0
   index: -1
 block16
   rotate: false
-  xy: 116, 118
-  size: 112, 114
-  orig: 112, 114
+  xy: 224, 2
+  size: 72, 72
+  orig: 72, 72
   offset: 0, 0
   index: -1
 block2
   rotate: false
-  xy: 2, 118
-  size: 112, 114
-  orig: 112, 114
+  xy: 2, 2
+  size: 72, 72
+  orig: 72, 72
   offset: 0, 0
   index: -1
 block2048
   rotate: false
-  xy: 804, 454
-  size: 112, 114
-  orig: 112, 114
+  xy: 668, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+block256
+  rotate: false
+  xy: 520, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+block32
+  rotate: false
+  xy: 298, 2
+  size: 72, 72
+  orig: 72, 72
   offset: 0, 0
   index: -1
 block4
   rotate: false
-  xy: 804, 570
-  size: 112, 114
-  orig: 112, 114
+  xy: 76, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+block4096
+  rotate: false
+  xy: 742, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+block512
+  rotate: false
+  xy: 890, 2
+  size: 71, 72
+  orig: 71, 72
+  offset: 0, 0
+  index: -1
+block64
+  rotate: false
+  xy: 372, 2
+  size: 72, 72
+  orig: 72, 72
   offset: 0, 0
   index: -1
 block8
   rotate: false
-  xy: 2, 2
-  size: 112, 114
-  orig: 112, 114
+  xy: 150, 2
+  size: 72, 72
+  orig: 72, 72
+  offset: 0, 0
+  index: -1
+block8192
+  rotate: false
+  xy: 816, 2
+  size: 72, 72
+  orig: 72, 72
   offset: 0, 0
   index: -1

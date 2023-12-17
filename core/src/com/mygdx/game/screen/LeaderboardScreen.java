@@ -171,7 +171,4 @@ public class LeaderboardScreen extends ScreenAdapter {
 
         return mainTable;
     }
-
-
-
 }

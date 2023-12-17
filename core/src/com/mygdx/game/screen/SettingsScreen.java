@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -34,8 +35,9 @@ public class SettingsScreen extends ScreenAdapter {
     private Skin skin;
     private TextureAtlas gameplayAtlas;
 
-    private CheckBox checkBoxMenuMusic;
-    private CheckBox checkBoxGameMusic;
+    private CheckBox checkBoxMusic;
+
+    private CheckBox checkBoxSound;
 
     public SettingsScreen(My2048Game game) {
         this.game = game;
@@ -116,29 +118,28 @@ public class SettingsScreen extends ScreenAdapter {
         Table table = new Table();
         table.defaults().pad(20);
 
-        checkBoxMenuMusic = new CheckBox("Menu Music", skin);
-        checkBoxMenuMusic.setChecked(GameManager.INSTANCE.isMenuMusicEnabled());
-        checkBoxMenuMusic.addListener(new ChangeListener() {
+        checkBoxMusic = new CheckBox("Game Music", skin);
+        checkBoxMusic.setChecked(GameManager.INSTANCE.isMusicEnabled());
+        checkBoxMusic.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                boolean isChecked = checkBoxMenuMusic.isChecked();
-                GameManager.INSTANCE.setMenuMusicEnabled(isChecked);
+                boolean isChecked = checkBoxMusic.isChecked();
+                GameManager.INSTANCE.setMusicEnabled(isChecked);
             }
         });
 
-        checkBoxGameMusic = new CheckBox("Game Music", skin);
-        checkBoxGameMusic.setChecked(GameManager.INSTANCE.isGameMusicEnabled());
-        checkBoxGameMusic.addListener(new ChangeListener() {
+        checkBoxSound = new CheckBox("Game Sound", skin);
+        checkBoxSound.setChecked(GameManager.INSTANCE.isSoundEnabled());
+        checkBoxSound.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                boolean isChecked = checkBoxGameMusic.isChecked();
-                GameManager.INSTANCE.setGameMusicEnabled(isChecked);
+                boolean isChecked = checkBoxSound.isChecked();
+                GameManager.INSTANCE.setSoundEnabled(isChecked);
             }
         });
 
-
-        table.add(checkBoxMenuMusic).padBottom(20).row();
-        table.add(checkBoxGameMusic).padBottom(20).row();
+        table.add(checkBoxMusic).padBottom(20).align(Align.left).row();
+        table.add(checkBoxSound).padBottom(20).align(Align.left).row();
 
         table.setFillParent(true);
         table.pack();

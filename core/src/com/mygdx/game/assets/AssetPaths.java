@@ -7,6 +7,9 @@ public class AssetPaths {
     public static final String GAMEPLAY = "gameplay/gameplay.atlas";
 
     public static final String MENU_MUSIC = "music/menu.mp3";
+    public static final String GAME_MUSIC = "music/game.mp3";
+
+    public static final String CLICK_SOUND = "sounds/cl.wav";
 
     private AssetPaths() {
     }

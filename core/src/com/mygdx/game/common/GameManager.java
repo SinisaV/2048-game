@@ -12,8 +12,8 @@ public class GameManager {
     public static final GameManager INSTANCE = new GameManager();
     private final Preferences PREFS;
 
-    private static final String MENU_MUSIC_ENABLED_KEY = "menu_music_enabled";
-    private static final String GAME_MUSIC_ENABLED_KEY = "game_music_enabled";
+    private static final String MUSIC_ENABLED_KEY = "menu_music_enabled";
+    private static final String SOUND_ENABLED_KEY = "sounds_enabled";
     private static final String SELECTED_GRID_SIZE_KEY = "selected_grid_size";
 
     private List<Score> scores;
@@ -44,21 +44,21 @@ public class GameManager {
         Gdx.files.local("scores.json").writeString(scoresJson, false);
     }
 
-    public boolean isMenuMusicEnabled() {
-        return PREFS.getBoolean(MENU_MUSIC_ENABLED_KEY, true);
+    public boolean isMusicEnabled() {
+        return PREFS.getBoolean(MUSIC_ENABLED_KEY, true);
     }
 
-    public void setMenuMusicEnabled(boolean enabled) {
-        PREFS.putBoolean(MENU_MUSIC_ENABLED_KEY, enabled);
+    public void setMusicEnabled(boolean enabled) {
+        PREFS.putBoolean(MUSIC_ENABLED_KEY, enabled);
         PREFS.flush();
     }
 
-    public boolean isGameMusicEnabled() {
-        return PREFS.getBoolean(GAME_MUSIC_ENABLED_KEY, true);
+    public boolean isSoundEnabled() {
+        return PREFS.getBoolean(SOUND_ENABLED_KEY, true);
     }
 
-    public void setGameMusicEnabled(boolean enabled) {
-        PREFS.putBoolean(GAME_MUSIC_ENABLED_KEY, enabled);
+    public void setSoundEnabled(boolean enabled) {
+        PREFS.putBoolean(SOUND_ENABLED_KEY, enabled);
         PREFS.flush();
     }
 
