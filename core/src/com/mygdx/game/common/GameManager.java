@@ -45,6 +45,23 @@ public class GameManager {
         Gdx.files.local("scores.json").writeString(scoresJson, false);
     }
 
+    public List<Score> sortScores() {
+        if (scores.isEmpty()) {
+            loadScores();
+        }
+
+        for (int i = 0; i < scores.size() - 1; i++) {
+            for (int j = i + 1; j < scores.size(); j++) {
+                if (scores.get(i).getScore() < scores.get(j).getScore()) {
+                    Score temp = scores.get(i);
+                    scores.set(i, scores.get(j));
+                    scores.set(j, temp);
+                }
+            }
+        }
+        return scores;
+    }
+
     public int getHighScore() {
         int maxScore = 0;
 

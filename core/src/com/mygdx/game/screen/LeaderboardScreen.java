@@ -147,7 +147,7 @@ public class LeaderboardScreen extends ScreenAdapter {
 
         leaderboardTable.row().padTop(20);
 
-        for (Score score : GameManager.INSTANCE.loadScores()) {
+        for (Score score : GameManager.INSTANCE.sortScores()) {
             Label nameLabel = new Label(score.getPlayerName(), skin);
             nameLabel.setColor(Color.BLACK);
             leaderboardTable.add(nameLabel).padRight(50);
