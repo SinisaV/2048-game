@@ -13,11 +13,13 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -41,6 +43,9 @@ public class GameScreen extends ScreenAdapter {
     private final BitmapFont customFont;
     private final Music gameMusic;
     private final int score = 0;
+
+    private String playerName = "";
+
 
     public GameScreen(My2048Game game) {
         this.game = game;
@@ -67,6 +72,9 @@ public class GameScreen extends ScreenAdapter {
         stage.addActor(createButtonUI());
         stage.addActor(createScoreUI());
         stage.addActor(createUI());
+
+        Dialog playerInputDialog = createPlayerInputDialog();
+        playerInputDialog.show(stage);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -135,13 +143,23 @@ public class GameScreen extends ScreenAdapter {
         Table table = new Table();
         table.top().padTop(100);
 
+        Label.LabelStyle playerLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));
+        customFont.getData().setScale(0.5f);
+
+        Label playerLabel = new Label("Player: ", playerLabelStyle);
+        Label playerValueLabel = new Label(playerName, playerLabelStyle);
+        playerValueLabel.setName("playerLabel");
+
+        table.add(playerLabel).left();
+        table.add(playerValueLabel).right();
+
         Label.LabelStyle scoreLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));
         customFont.getData().setScale(0.5f);
 
         Label scoreLabel = new Label("Score: ", scoreLabelStyle);
         Label scoreValueLabel = new Label(String.valueOf(score), scoreLabelStyle);
 
-        table.add(scoreLabel).left();
+        table.add(scoreLabel).left().padLeft(50);
         table.add(scoreValueLabel).right();
 
         if (GameManager.INSTANCE.isHighScoreEnabled()) {
@@ -151,7 +169,7 @@ public class GameScreen extends ScreenAdapter {
             Label highScoreLabel = new Label("High Score: ", highScoreLabelStyle);
             Label highScoreValueLabel = new Label(String.valueOf(GameManager.INSTANCE.getHighScore()), highScoreLabelStyle);
 
-            table.add(highScoreLabel).left().padLeft(100);
+            table.add(highScoreLabel).left().padLeft(50);
             table.add(highScoreValueLabel).right();
         }
 
@@ -211,4 +229,40 @@ public class GameScreen extends ScreenAdapter {
         return texture;
     }
 
+    private Dialog createPlayerInputDialog() {
+        final Dialog nameDialog = new Dialog("Enter Your Name", skin);
+        final TextField playerNameField = new TextField("", skin);
+        TextButton confirmButton = new TextButton("Confirm", skin);
+
+        nameDialog.getContentTable().add(playerNameField).pad(20).row();
+        nameDialog.getButtonTable().add(confirmButton).pad(20);
+
+        confirmButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                String enteredName = playerNameField.getText();
+                if (!enteredName.isEmpty()) {
+                    playerName = enteredName;
+                    updatePlayerLabel();
+                    System.out.println("Entered name: " + playerName);
+                }
+
+                nameDialog.hide();
+            }
+        });
+
+        nameDialog.setModal(true);
+
+        return nameDialog;
+    }
+
+    private void updatePlayerLabel() {
+        if (stage != null) {
+            // Find the player label and update its text
+            Label playerValueLabel = stage.getRoot().findActor("playerLabel");
+            if (playerValueLabel != null) {
+                playerValueLabel.setText(playerName);
+            }
+        }
+    }
 }

@@ -52,7 +52,7 @@ public class IntroScreen extends ScreenAdapter {
 
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
-        stage.addActor(createAnimation());
+        //stage.addActor(createAnimation());
     }
 
     @Override
@@ -66,9 +66,9 @@ public class IntroScreen extends ScreenAdapter {
 
         duration += delta;
 
-        if (duration >= INTRO_DURATION_IN_SEC) {
+        //if (duration >= INTRO_DURATION_IN_SEC) {
         game.setScreen(new MenuScreen(game));
-        }
+        //}
 
         stage.act(delta);
         stage.draw();
