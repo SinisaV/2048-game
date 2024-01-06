@@ -38,12 +38,15 @@ public class GameOverScreen extends ScreenAdapter {
     private final String playerName;
     private final int score;
 
-    public GameOverScreen(My2048Game game, int score, String playerName) {
+    private final String winOrLose;
+
+    public GameOverScreen(My2048Game game, int score, String playerName, String winOrLose) {
         this.game = game;
         assetManager = game.getAssetManager();
         customFont = game.getCustomFont();
         this.score = score;
         this.playerName = playerName;
+        this.winOrLose = winOrLose;
     }
 
     @Override
@@ -85,8 +88,13 @@ public class GameOverScreen extends ScreenAdapter {
         table.defaults().pad(20);
 
         Label.LabelStyle titleLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));
-        Label titleLabel = new Label("GAME OVER", titleLabelStyle);
-
+        Label titleLabel;
+        if (winOrLose.equals("You Win!")) {
+            titleLabel = new Label("YOU WIN", titleLabelStyle);
+        }
+        else {
+            titleLabel = new Label("GAME OVER", titleLabelStyle);
+        }
         table.add(titleLabel).top().colspan(3).padTop(100).row();
 
         Label.LabelStyle playerLabelStyle = new Label.LabelStyle(customFont, new Color(0.45f, 0.45f, 0.45f, 1));

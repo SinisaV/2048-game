@@ -83,21 +83,41 @@ public class GameStage extends CustomStage {
         return false;
     }
 
+    private boolean isWin() {
+        int[][] data = gridGroup.getCoreModel().getData();
+        for (int row = 0; row < gridGroup.getCARD_ROWS(); row++) {
+            for (int col = 0; col < gridGroup.CARD_COLS; col++) {
+                if (data[row][col] == 2048) {
+                    // There's a cell with the value 2048, so the player has won
+                    return true;
+                }
+            }
+        }
+        // No cells with the value 2048 found, player has not won
+        return false;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
         int currentScore = calculateCurrentScore();
         gameScreen.updateScore(currentScore); // Update score in GameScreen
 
+        if (isWin()) {
+            Score score = new Score(gameScreen.getPlayerName(), currentScore);
+            GameManager.INSTANCE.saveScore(score);
+            game.setScreen(new GameOverScreen(game, currentScore, gameScreen.getPlayerName(), "You Win!"));
+        }
+
         if (isGameOver()) {
             Score score = new Score(gameScreen.getPlayerName(), currentScore);
             GameManager.INSTANCE.saveScore(score);
-            game.setScreen(new GameOverScreen(game, currentScore, gameScreen.getPlayerName()));
+            game.setScreen(new GameOverScreen(game, currentScore, gameScreen.getPlayerName(), "Game Over!"));
         }
     }
 
     public boolean isGameOver() {
-        return !canMerge() || isGridFull();
+        return !canMerge() && isGridFull() && !isWin();
     }
 
     @Override

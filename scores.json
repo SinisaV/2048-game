@@ -74,4 +74,9 @@
 	playerName: haha
 	score: 16
 }
+{
+	class: com.mygdx.game.common.Score
+	playerName: dd
+	score: 32
+}
 ]
