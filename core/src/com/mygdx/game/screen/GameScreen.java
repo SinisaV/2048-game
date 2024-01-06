@@ -1,6 +1,7 @@
 package com.mygdx.game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -29,7 +30,8 @@ import com.mygdx.game.My2048Game;
 import com.mygdx.game.assets.AssetDescriptors;
 import com.mygdx.game.assets.RegionNames;
 import com.mygdx.game.common.GameManager;
-import com.mygdx.game.config.GameConfig;
+import com.mygdx.game.common.Score;
+import com.mygdx.game.gameplay.stage.GameStage;
 
 public class GameScreen extends ScreenAdapter {
     private final My2048Game game;
@@ -42,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
     private TextureAtlas gameplayAtlas;
     private final BitmapFont customFont;
     private final Music gameMusic;
-    private final int score = 0;
+    private int score = 0;
 
     private String playerName = "";
 
@@ -63,15 +65,15 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-        viewport = new FitViewport(GameConfig.HUD_WIDTH, GameConfig.HUD_HEIGHT);
-        stage = new Stage(viewport, game.getBatch());
+        viewport = new FitViewport(game.getWorldWidth(), game.getWorldHeight());
+        stage = new GameStage(game, viewport, this);
 
         skin = assetManager.get(AssetDescriptors.UI_SKIN);
         gameplayAtlas = assetManager.get(AssetDescriptors.GAMEPLAY);
 
         stage.addActor(createButtonUI());
         stage.addActor(createScoreUI());
-        stage.addActor(createUI());
+        //stage.addActor(createUI());
 
         Dialog playerInputDialog = createPlayerInputDialog();
         playerInputDialog.show(stage);
@@ -88,6 +90,13 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(240 / 255f, 240 / 255f, 240 / 255f, 1);
         stage.act();
         stage.draw();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            GameManager gameManager = GameManager.INSTANCE;
+            Score newScore = new Score(playerName, score);
+            gameManager.saveScore(newScore);
+            game.setScreen(new MenuScreen(game));
+        }
     }
 
     @Override
@@ -158,6 +167,7 @@ public class GameScreen extends ScreenAdapter {
 
         Label scoreLabel = new Label("Score: ", scoreLabelStyle);
         Label scoreValueLabel = new Label(String.valueOf(score), scoreLabelStyle);
+        scoreValueLabel.setName("scoreLabel");
 
         table.add(scoreLabel).left().padLeft(50);
         table.add(scoreValueLabel).right();
@@ -264,5 +274,23 @@ public class GameScreen extends ScreenAdapter {
                 playerValueLabel.setText(playerName);
             }
         }
+    }
+
+    public void updateScore(int newScore) {
+        score = newScore;
+        updateScoreLabel();
+    }
+
+    private void updateScoreLabel() {
+        if (stage != null) {
+            Label scoreValueLabel = stage.getRoot().findActor("scoreLabel");
+            if (scoreValueLabel != null) {
+                scoreValueLabel.setText(String.valueOf(score));
+            }
+        }
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 }

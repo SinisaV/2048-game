@@ -6,8 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.Logger;
+import com.mygdx.game.assets.AssetDescriptors;
 import com.mygdx.game.screen.IntroScreen;
 
 public class My2048Game extends Game {
@@ -15,6 +17,11 @@ public class My2048Game extends Game {
 	private AssetManager assetManager;
 	SpriteBatch batch;
 	private BitmapFont customFont;
+
+	private TextureAtlas atlas;
+
+	private float worldWidth;
+	private float worldHeight;
 	
 	@Override
 	public void create () {
@@ -29,6 +36,13 @@ public class My2048Game extends Game {
 		parameter.size = 64; // Set the font size, adjust as needed
 		customFont = generator.generateFont(parameter);
 		generator.dispose(); // Dispose the generator after generating the font
+
+		assetManager.load(AssetDescriptors.GAMEPLAY);
+		assetManager.finishLoading();
+		atlas = assetManager.get(AssetDescriptors.GAMEPLAY);
+
+		worldWidth = 1420;
+		worldHeight = Gdx.graphics.getHeight() * worldWidth / Gdx.graphics.getWidth();
 
 		/*GameManager gameManager = GameManager.INSTANCE;
 
@@ -64,5 +78,17 @@ public class My2048Game extends Game {
 
 	public BitmapFont getCustomFont() {
 		return customFont;
+	}
+
+	public TextureAtlas getAtlas() {
+		return atlas;
+	}
+
+	public float getWorldWidth() {
+		return worldWidth;
+	}
+
+	public float getWorldHeight() {
+		return worldHeight;
 	}
 }

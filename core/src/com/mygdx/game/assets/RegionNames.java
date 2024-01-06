@@ -17,6 +17,9 @@ public class RegionNames {
     public static final String BLOCK4096 = "block4096";
     public static final String BLOCK8192 = "block8192";
 
+    public static final String GRID_BACKGROUND = "grid";
+    public static final String CARD_BACKGROUND = "card";
+
     private RegionNames() {
     }
 }
