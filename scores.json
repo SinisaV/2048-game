@@ -79,4 +79,19 @@
 	playerName: dd
 	score: 32
 }
+{
+	class: com.mygdx.game.common.Score
+	playerName: dd
+	score: 8
+}
+{
+	class: com.mygdx.game.common.Score
+	playerName: aa
+	score: 128
+}
+{
+	class: com.mygdx.game.common.Score
+	playerName: aa
+	score: 64
+}
 ]

@@ -37,8 +37,6 @@ public class MenuScreen extends ScreenAdapter {
 
     private final Music menuMusic;
 
-    private Sound clickSound;
-
     private final BitmapFont customFont;
 
     public MenuScreen(My2048Game game) {
@@ -52,8 +50,6 @@ public class MenuScreen extends ScreenAdapter {
         if (GameManager.INSTANCE.isMusicEnabled()) {
             menuMusic.play();
         }
-
-        clickSound = assetManager.get(AssetDescriptors.CLICK_SOUND);
     }
 
     @Override
@@ -92,11 +88,6 @@ public class MenuScreen extends ScreenAdapter {
         if (menuMusic != null) {
             menuMusic.stop();
             menuMusic.dispose();
-        }
-        if (clickSound != null) {
-            clickSound.stop();
-            clickSound.dispose();
-            clickSound = null;
         }
     }
 

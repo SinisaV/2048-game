@@ -37,7 +37,7 @@ public class GameStage extends CustomStage {
         int maxNumber = 0;
         int[][] data = gridGroup.getCoreModel().getData();
         for (int row = 0; row < gridGroup.getCARD_ROWS(); row++) {
-            for (int col = 0; col < gridGroup.CARD_COLS; col++) {
+            for (int col = 0; col < gridGroup.getCARD_COLS(); col++) {
                 maxNumber = Math.max(maxNumber, data[row][col]);
             }
         }
@@ -47,7 +47,7 @@ public class GameStage extends CustomStage {
     private boolean isGridFull() {
         int[][] data = gridGroup.getCoreModel().getData();
         for (int row = 0; row < gridGroup.getCARD_ROWS(); row++) {
-            for (int col = 0; col < gridGroup.CARD_COLS; col++) {
+            for (int col = 0; col < gridGroup.getCARD_COLS(); col++) {
                 if (data[row][col] == 0) {
                     // There's an empty cell, so the grid is not full
                     return false;
@@ -61,7 +61,7 @@ public class GameStage extends CustomStage {
     private boolean canMerge() {
         int[][] data = gridGroup.getCoreModel().getData();
         for (int row = 0; row < gridGroup.getCARD_ROWS(); row++) {
-            for (int col = 0; col < gridGroup.CARD_COLS; col++) {
+            for (int col = 0; col < gridGroup.getCARD_COLS(); col++) {
                 int currentValue = data[row][col];
 
                 // Check if the neighboring cells can be merged
@@ -74,7 +74,7 @@ public class GameStage extends CustomStage {
                 if (col > 0 && currentValue == data[row][col - 1]) {
                     return true; // Merging possible with the cell on the left
                 }
-                if (col < gridGroup.CARD_COLS - 1 && currentValue == data[row][col + 1]) {
+                if (col < gridGroup.getCARD_COLS() - 1 && currentValue == data[row][col + 1]) {
                     return true; // Merging possible with the cell on the right
                 }
             }
@@ -86,7 +86,7 @@ public class GameStage extends CustomStage {
     private boolean isWin() {
         int[][] data = gridGroup.getCoreModel().getData();
         for (int row = 0; row < gridGroup.getCARD_ROWS(); row++) {
-            for (int col = 0; col < gridGroup.CARD_COLS; col++) {
+            for (int col = 0; col < gridGroup.getCARD_COLS(); col++) {
                 if (data[row][col] == 2048) {
                     // There's a cell with the value 2048, so the player has won
                     return true;

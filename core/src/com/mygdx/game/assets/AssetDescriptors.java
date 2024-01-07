@@ -26,8 +26,11 @@ public class AssetDescriptors {
     public static final AssetDescriptor<Music> GAME_MUSIC =
             new AssetDescriptor<Music>(AssetPaths.GAME_MUSIC, Music.class);
 
-    public static final AssetDescriptor<Sound> CLICK_SOUND =
-            new AssetDescriptor<Sound>(AssetPaths.CLICK_SOUND, Sound.class);
+    public static final AssetDescriptor<Sound> MERGE_SOUND =
+            new AssetDescriptor<Sound>(AssetPaths.MERGE_SOUND, Sound.class);
+
+    public static final AssetDescriptor<Sound> MOVE_SOUND =
+            new AssetDescriptor<Sound>(AssetPaths.MOVE_SOUND, Sound.class);
 
     private AssetDescriptors() {
     }

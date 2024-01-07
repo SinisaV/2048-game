@@ -9,7 +9,8 @@ public class AssetPaths {
     public static final String MENU_MUSIC = "music/menu.mp3";
     public static final String GAME_MUSIC = "music/game.mp3";
 
-    public static final String CLICK_SOUND = "sounds/cl.wav";
+    public static final String MERGE_SOUND = "sounds/merge.wav";
+    public static final String MOVE_SOUND = "sounds/move.mp3";
 
     private AssetPaths() {
     }

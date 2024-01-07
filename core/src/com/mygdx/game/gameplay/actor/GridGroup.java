@@ -1,5 +1,6 @@
 package com.mygdx.game.gameplay.actor;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -15,18 +16,21 @@ import com.mygdx.game.common.GameManager;
 import com.mygdx.game.gameplay.game.GameModel;
 
 public class GridGroup extends CustomGroup {
-    public int CARD_ROWS = 5;
-    public int CARD_COLS = 5;
+    private int CARD_ROWS = 5;
+    private int CARD_COLS = 5;
 
     private GameManager gameManager;
 
     private Image myBgImage;
 
-    private final CardGroup[][] bgCards = new CardGroup[CARD_ROWS][CARD_COLS];
+    private final CardGroup[][] myBgCards = new CardGroup[CARD_ROWS][CARD_COLS];
 
     private final CardGroup[][] cards = new CardGroup[CARD_ROWS][CARD_COLS];
 
     private GameModel gameModel;
+
+    private Sound mergeSound;
+    private Sound moveSound;
 
     public GridGroup(My2048Game mainGame, GameManager gameManager) {
         super(mainGame);
@@ -44,16 +48,16 @@ public class GridGroup extends CustomGroup {
 
         for (int row = 0; row < CARD_ROWS; row++) {
             for (int col = 0; col < CARD_COLS; col++) {
-                bgCards[row][col] = new CardGroup(getGame2048());
-                addActor(bgCards[row][col]);
+                myBgCards[row][col] = new CardGroup(getGame2048());
+                addActor(myBgCards[row][col]);
                 cards[row][col] = new CardGroup(getGame2048());
                 cards[row][col].setOrigin(Align.center);
                 addActor(cards[row][col]);
             }
         }
 
-        float cardWidth = bgCards[0][0].getWidth();
-        float cardHeight = bgCards[0][0].getHeight();
+        float cardWidth = myBgCards[0][0].getWidth();
+        float cardHeight = myBgCards[0][0].getHeight();
 
         float horizontalInterval = (getWidth() - CARD_COLS * cardWidth) / (CARD_COLS + 1);
         float verticalInterval = (getHeight() - CARD_ROWS * cardHeight) / (CARD_ROWS + 1);
@@ -62,7 +66,7 @@ public class GridGroup extends CustomGroup {
         for (int row = 0; row < CARD_ROWS; row++) {
             cardY = getHeight() - (verticalInterval + cardHeight) * (row + 1);
             for (int col = 0; col < CARD_COLS; col++) {
-                bgCards[row][col].setPosition(
+                myBgCards[row][col].setPosition(
                         horizontalInterval + (cardWidth + horizontalInterval) * col,
                         cardY
                 );
@@ -78,6 +82,9 @@ public class GridGroup extends CustomGroup {
         gameModel = GameModel.Builder.createDataModel(CARD_ROWS, CARD_COLS, new DataListenerImpl());
         gameModel.initData();
         addDataToCardGroup();
+
+        mergeSound = getGame2048().getAssetManager().get(AssetDescriptors.MERGE_SOUND);
+        moveSound = getGame2048().getAssetManager().get(AssetDescriptors.MOVE_SOUND);
     }
 
     public GameModel getCoreModel() {
@@ -88,25 +95,37 @@ public class GridGroup extends CustomGroup {
         int[][] data = gameModel.getData();
         for (int row = 0; row < CARD_ROWS; row++) {
             for (int col = 0; col < CARD_COLS; col++) {
-                cards[row][col].setNum(data[row][col]);
+                cards[row][col].setNumber(data[row][col]);
             }
         }
     }
 
     public void toUp() {
         gameModel.toUp();
+        if (gameManager.isSoundEnabled()) {
+            moveSound.play();
+        }
     }
 
     public void toDown() {
         gameModel.toDown();
+        if (gameManager.isSoundEnabled()) {
+            moveSound.play();
+        }
     }
 
     public void toLeft() {
         gameModel.toLeft();
+        if (gameManager.isSoundEnabled()) {
+            moveSound.play();
+        }
     }
 
     public void toRight() {
         gameModel.toRight();
+        if (gameManager.isSoundEnabled()) {
+            moveSound.play();
+        }
     }
 
     private class InputListenerImpl extends InputListener {
@@ -165,15 +184,15 @@ public class GridGroup extends CustomGroup {
                 beginCol=fixed;
                 beginX = cards[begin][fixed].getX();
                 beginY = cards[begin][fixed].getY();
-                endX = bgCards[end][fixed].getX();
-                endY = bgCards[end][fixed].getY();
+                endX = myBgCards[end][fixed].getX();
+                endY = myBgCards[end][fixed].getY();
             }else{
                 beginRow=fixed;
                 beginCol=begin;
                 beginX=cards[fixed][begin].getX();
                 beginY=cards[fixed][begin].getY();
-                endX = bgCards[fixed][end].getX();
-                endY = bgCards[fixed][end].getY();
+                endX = myBgCards[fixed][end].getX();
+                endY = myBgCards[fixed][end].getY();
             }
 
             SequenceAction moveToAction = Actions.sequence(
@@ -198,6 +217,10 @@ public class GridGroup extends CustomGroup {
                     Actions.scaleTo(1.0f, 1.0f, 0.1f)
             );
             cards[rowAfterMerge][colAfterMerge].addAction(sequenceAction);
+
+            if (gameManager.isSoundEnabled()) {
+                mergeSound.play();
+            }
         }
 
         @Override
